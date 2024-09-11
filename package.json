@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tailwindcss -i ./styles.css -o ./output.css --minify",
-    "start": "http-server ./",
+    "start": "http-server ./ -p $PORT",
     "postinstall": "npm run build"
   },
   "devDependencies": {
