@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+    <link href="output.css" rel="stylesheet">
+    <style>
+        /* CSS for Dropdown */
+        .dropdown-menu { 
+            display: none; 
+            position: absolute;
+            top: 2rem; /* Adjust position */
+            right: 1rem; /* Adjust position */
+            z-index: 10; 
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 0.375rem; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for the dropdown */
+        }
+        .dropdown-open { 
+            display: block; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-customTeal p-4 text-customWhite">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-roboto font-bold text-shadow-lg">Sabatuul</h1>
+            <a href="index.html" class="text-lg font-semibold hover:underline">Avalehele</a>
+        </div>
+    </nav>
+
+    <!-- Blog Section: Where blog entries will be displayed -->
+    <div class="container mx-auto mt-10 pl-4" id="blog-entries">
+        <!-- Blog entries will be dynamically added here -->
+    </div>
+
+    <!-- Input Fields for User to Enter New Content -->
+    <div class="container mx-auto mt-5 pl-4">
+        <input type="text" id="new-heading" placeholder="Enter new heading" class="border p-2 mb-2 rounded-lg block w-full">
+        <textarea id="new-paragraph" rows="10" placeholder="Enter new paragraph" class="border p-2 mb-2 rounded-lg block w-full"></textarea>
+        <button id="save-content" class="bg-customTeal text-white p-2 rounded">Salvesta</button>
+    </div>
+
+    <!-- Script Section -->
+    <script>
+        // Function to render the blog entries from localStorage
+        function renderBlogEntries() {
+            const blogEntriesDiv = document.getElementById('blog-entries');
+            blogEntriesDiv.innerHTML = ''; // Clear previous content
+
+            // Retrieve blog entries from localStorage
+            const blogEntries = JSON.parse(localStorage.getItem('blogEntries')) || [];
+
+            // Loop through and display each entry
+            blogEntries.forEach((entry, index) => {
+                const entryDiv = document.createElement('div');
+                entryDiv.classList.add('mb-8', 'bg-white', 'p-4', 'rounded', 'shadow-lg', 'relative'); // Tailwind styling for each entry
+
+                entryDiv.innerHTML = `
+                    <div class="flex justify-between">
+                        <h2 class="text-3xl font-bold mb-4">${entry.heading}</h2>
+                        <button class="text-gray-500 hover:text-black" onclick="toggleDropdown(${index})">
+                            &#9776; <!-- Hamburger icon -->
+                        </button>
+                    </div>
+                    <p class="text-lg text-gray-700">${entry.paragraph}</p>
+                    <div id="dropdown-${index}" class="dropdown-menu">
+                        <button onclick="editEntry(${index})" class="block text-blue-500 mb-2">Edit</button>
+                        <button onclick="deleteEntry(${index})" class="block text-red-500">Delete</button>
+                    </div>
+                `;
+
+                blogEntriesDiv.appendChild(entryDiv);
+            });
+        }
+
+        // Function to toggle dropdown
+        function toggleDropdown(index) {
+            const dropdown = document.getElementById(`dropdown-${index}`);
+            dropdown.classList.toggle('dropdown-open'); // Toggle dropdown visibility
+        }
+
+        // Function to delete a blog entry
+        function deleteEntry(index) {
+            let blogEntries = JSON.parse(localStorage.getItem('blogEntries')) || [];
+            blogEntries.splice(index, 1); // Remove the selected entry
+            localStorage.setItem('blogEntries', JSON.stringify(blogEntries)); // Update localStorage
+            renderBlogEntries(); // Re-render the entries
+        }
+
+        // Function to edit a blog entry
+        function editEntry(index) {
+            let blogEntries = JSON.parse(localStorage.getItem('blogEntries')) || [];
+            const entry = blogEntries[index];
+
+            // Pre-fill the input fields with the current content
+            document.getElementById('new-heading').value = entry.heading;
+            document.getElementById('new-paragraph').value = entry.paragraph;
+
+            // Remove the current entry from the list (so it can be replaced)
+            deleteEntry(index);
+        }
+
+        // Function to save a new blog entry
+        document.getElementById('save-content').addEventListener('click', function() {
+            // Get the input values
+            const newHeading = document.getElementById('new-heading').value;
+            const newParagraph = document.getElementById('new-paragraph').value;
+
+            // Check if both fields are not empty
+            if (newHeading && newParagraph) {
+                // Retrieve existing blog entries from localStorage or initialize an empty array
+                let blogEntries = JSON.parse(localStorage.getItem('blogEntries')) || [];
+
+                // Create a new entry object
+                const newEntry = {
+                    heading: newHeading,
+                    paragraph: newParagraph
+                };
+
+                // Add the new entry to the blog entries array
+                blogEntries.push(newEntry);
+
+                // Save the updated blog entries array back to localStorage
+                localStorage.setItem('blogEntries', JSON.stringify(blogEntries));
+
+                // Clear the input fields after saving
+                document.getElementById('new-heading').value = '';
+                document.getElementById('new-paragraph').value = '';
+
+                // Re-render the blog entries to display the new one
+                renderBlogEntries();
+            } else {
+                alert('Please fill both the heading and the paragraph.');
+            }
+        });
+
+        // On page load, render all blog entries
+        document.addEventListener('DOMContentLoaded', function() {
+            renderBlogEntries(); // Render the saved blog entries
+        });
+    </script>
+
+</body>
+</html>

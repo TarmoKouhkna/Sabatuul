@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page with Tailwind</title>
+    <link href="output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-customTeal p-4 text-customWhite">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-roboto font-bold text-shadow-xl">Sabatuul</h1>
+            <a href="about.html" class="text-lg font-semibold hover:underline">Märkmed</a>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <div class="container mx-auto mt-10 space-y-8">
+
+        <!-- Two side by side containers -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- First container -->
+            <div class="bg-white p-6 shadow-lg rounded-lg">
+                <h2 class="text-2xl font-bold mb-4">Tarmo Nägö</h2>
+                <p class="text-customGray mb-4">See on genereeritud pilt esimene.</p>
+                <img src="/Users/tarmokouhkna/Documents/Programming/Sabatuule_test/images/tk - 1 (2).jpeg" alt="Face_1" class="w-full h-auto object-contain rounded">
+            </div>
+
+            <!-- Second container -->
+            <div class="bg-white p-6 shadow-lg rounded-lg">
+                <h2 class="text-2xl font-bold mb-4">Tarmo Alternative</h2>
+                <p class="text-customGray mb-4">See on genereeritud pilt teine.</p>
+                <img src="/Users/tarmokouhkna/Documents/Programming/Sabatuule_test/images/tk - 1 (3).jpeg" alt="Face_2" class="w-full h-auto object-contain rounded">
+            </div>
+        </div>
+
+        <!-- Big container below -->
+        <div class="bg-white p-6 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-bold mb-4">Veel on ka kolm muud võimalust</h2>
+            <p class="text-customGray mb-4">Macaroni western and cheese.</p>
+            <img src="/Users/tarmokouhkna/Documents/Programming/Sabatuule_test/images/good_bad_ugly.jpg" alt="Placeholder Image" class="w-full h-auto object-contain rounded">
+        </div>
+    </div>
+
+</body>
+</html>
